@@ -15,7 +15,6 @@ class Mongo():
 		pass
 
 	def insertNewData(self, language_1, id_file_1, content_1, language_2, id_file_2, content_2, type_corpus, counter):
-		print 'Inserting new data',language_1,id_file_1, content_1, language_2, id_file_2, content_2, type_corpus, counter
 		self.collection.insert({'files':{ 
 										 'id_file_'+language_1:id_file_1,
 										 'id_file_'+language_2:id_file_2,
@@ -43,7 +42,6 @@ class Mongo():
 		})
 
 	def insertInExistingSentence(self, language_index, id_file_index, language_update, id_file_update, content_update, line_number):
-		print 'files.id_file_'+language_index+':'+id_file_index+'}, {$push: {files.'+language_update+':{_id: '+line_number+',content:'+content_update+'}}'
 		self.collection.update({'files.id_file_'+language_index:id_file_index}, {
 						   '$push': {'files.'+language_update:{
 												'_id': line_number,
@@ -53,7 +51,6 @@ class Mongo():
 		})
 
 	def insertNewSentence(self, language_index, id_file_index, content_index, language_update, id_file_update, content_update, line_number):
-		print 'NEW SENTENCE\nfiles.id_file_'+language_index+':'+str(id_file_index)+'}, {$push: {files.'+language_update+':{_id: '+str(line_number)+',content:'+content_update+'}}'
 		self.collection.update({'files.id_file_'+language_index:id_file_index}, {
 							'$push': {'files.'+language_index:{
 												'_id': line_number,
@@ -83,13 +80,10 @@ class Mongo():
 			return False
 
 	def existsSentence(self, language, id_file, id_sentence):
-		print 'files.id_file_'+language+':'+str(id_file)+', files.'+language+'._id:'+str(id_sentence)
 		query = self.collection.find({'files.id_file_'+language:id_file, 'files.'+language+'._id':id_sentence})
 		if query.count() != 0:
-			print 'Exists!'
 			return True
 		else:
-			print 'Not exists!'
 			return False
 
 	def queryCollection(self, language, id_file):

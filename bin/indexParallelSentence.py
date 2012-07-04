@@ -41,10 +41,10 @@ def main(argv):
 		print 'ERROR: System cannot open the '+fileinput_2+' file'
 		sys.exit(2)
 	
-	line_number = 1
-
 	#Sentences indexed by the number of the line : number_line = _id (sentence)
+	line_number = 1
 	lines_2 = file_2.readlines()
+
 	for counter, content_1 in enumerate(file_1):
 		content_2 = lines_2[counter]
 
@@ -59,9 +59,10 @@ def main(argv):
 					database.insertInExistingSentence(language_2, id_file_2, language_1, id_file_1, content_1, line_number)
 				else:
 					database.insertNewSentence(language_1, id_file_1, content_1, language_2, id_file_2, content_2, line_number)
-				
+		if (line_number % 1000 == 0):
+			print 'Indexing line: ',line_number
 		line_number += 1
-	
+
 if __name__ == "__main__":
 	main(sys.argv[1:])
-	#python indexTed.py -l en-fr -t sen dsm_corpora ted /home/granada/temp/train.fr-en.en /home/granada/temp/train.fr-en.fr		
+	#python indexParallelSentence.py -l en-fr -t sen dsm_corpora ted /home/granada/temp/train.fr-en.en /home/granada/temp/train.fr-en.fr		
